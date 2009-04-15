@@ -6,3 +6,5 @@
   * Bumped version for github
 * 3 :
   * Changed Query.data to Query.rows
+* 4 :
+  * Access Model[x] instea of Model.rows[x]

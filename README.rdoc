@@ -25,12 +25,12 @@
   # execute the query
   databases.exec!
   # inspect rows
-  puts databases.rows.inspect
+  puts databases.inspect
   # inspect fields (columns)
   puts databases.fields.inspect
   # inspect specific row and column of data set
   # datname - being a column returned by the query
-  puts datases.rows[0].datname
+  puts datases[0].datname
 
 == REQUIREMENTS:
 

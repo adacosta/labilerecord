@@ -17,8 +17,8 @@ module LabileRecord
     end
   end
   
-  class Query < LabileRecord::Base
-    attr_reader :rows
+  class Query < Array
+    # attr_reader :rows
     attr_reader :result
     attr_reader :fields
     attr_reader :string
@@ -31,6 +31,7 @@ module LabileRecord
       @result = connection.exec(@string)
       parse_fields
       parse_result_data
+      push @rows[0]
     end
     
     def parse_result_data
@@ -62,7 +63,7 @@ module LabileRecord
     end
     
     def connection
-      self.class.superclass.connection
+      LabileRecord::Base.connection
     end
   end
   
