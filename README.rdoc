@@ -15,7 +15,6 @@
 
 == SYNOPSIS:
 
-  require 'rubygems'
   require 'labilerecord'
   
   LabileRecord::Base.connection = {:dbname => 'postgres', :user => user, 
@@ -25,9 +24,9 @@
   # execute the query
   q.exec
   # inspect data
-  q.data.inspect
+  puts q.data.inspect
   #inspect fields (columns)
-  q.fields.inspect
+  puts q.fields.inspect
 
 == REQUIREMENTS:
 
@@ -35,8 +34,8 @@
 
 == INSTALL:
 
-* gem sources -a http://gems.github.com
-* sudo gem install adacosta-labilerecord
+  gem sources -a http://gems.github.com
+  sudo gem install adacosta-labilerecord
 
 == LICENSE:
 
