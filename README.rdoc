@@ -1,6 +1,6 @@
 = labilerecord
 
-* git://github.com/adacosta/labilerecord.git
+* http://github.com/adacosta/labilerecord
 
 == DESCRIPTION:
 
@@ -12,6 +12,7 @@
 * Access field types
 * Access types which ActiveRecord won't (e.g. _int4)
 * Easy to use on tables, views, and functions
+* Fast - no ruby type conversion on values from connection adapter.
 
 == SYNOPSIS:
 
