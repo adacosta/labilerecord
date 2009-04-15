@@ -35,13 +35,14 @@
 
 == INSTALL:
 
-* gem install labilerecord --source git://github.com/adacosta
+* gem sources -a http://gems.github.com
+* sudo gem install adacosta-labilerecord
 
 == LICENSE:
 
 (The MIT License)
 
-Copyright (c) 2009 FIXME full name
+Copyright (c) 2009 Alan Da Costa
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
