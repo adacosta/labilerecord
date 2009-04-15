@@ -6,7 +6,7 @@
 
 * Simple data access for dynamic data sets through postgres with ruby
 
-== FEATURES/PROBLEMS:
+== FEATURES:
 
 * Access data by row[x].column
 * Access field types
