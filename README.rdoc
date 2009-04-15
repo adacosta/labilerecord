@@ -20,13 +20,15 @@
   LabileRecord::Base.connection = {:dbname => 'postgres', :user => user, 
     :pass => pass, :host => host, :port => port}
     
-  q = LabileRecord::Query.new("SELECT * FROM pg_database")
+  databases = LabileRecord::Query.new("SELECT * FROM pg_database")
   # execute the query
-  q.exec
-  # inspect data
-  puts q.data.inspect
-  #inspect fields (columns)
-  puts q.fields.inspect
+  databases.exec!
+  # inspect rows
+  puts databases.rows.inspect
+  # inspect fields (columns)
+  puts databases.fields.inspect
+  # inspect specific row and column of data set
+  puts datases.rows[0].datname
 
 == REQUIREMENTS:
 
