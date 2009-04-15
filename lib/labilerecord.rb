@@ -71,7 +71,7 @@ module LabileRecord
     def initialize(name, type, type_id)
       @name = name
       @type = type
-      @type_id = type
+      @type_id = type_id
     end
   end
   

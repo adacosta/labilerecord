@@ -10,3 +10,5 @@
   * Access Model[x] instea of Model.rows[x]
 * 5 :
   * Fixed bug introduced in 0.0.4 always referencing row[0]
+* 6 :
+  * Fix incorrect field.type_id
