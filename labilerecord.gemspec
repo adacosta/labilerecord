@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{labilerecord}
-  s.version = "0.0.1"
+  s.version = "0.0.2"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Alan Da Costa"]
@@ -12,7 +12,7 @@ Gem::Specification.new do |s|
   s.extra_rdoc_files = ["History.txt", "Manifest.txt", "PostInstall.txt", "README.rdoc"]
   s.files = ["History.txt", "Manifest.txt", "PostInstall.txt", "README.rdoc", "Rakefile", "lib/labilerecord.rb", "script/console", "script/destroy", "script/generate", "test/test_helper.rb", "test/test_labilerecord.rb"]
   s.has_rdoc = true
-  s.homepage = %q{git://github.com/adacosta/labilerecord.git}
+  s.homepage = %q{http://github.com/adacosta/labilerecord}
   s.post_install_message = %q{PostInstall.txt}
   s.rdoc_options = ["--main", "README.rdoc"]
   s.require_paths = ["lib"]
