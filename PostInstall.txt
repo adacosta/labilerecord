@@ -1,0 +1,2 @@
+
+For more information on labilerecord, see git://github.com/adacosta/labilerecord.git

@@ -1,0 +1,63 @@
+= labilerecord
+
+* git://github.com/adacosta/labilerecord.git
+
+== DESCRIPTION:
+
+* Simple data access for dynamic data sets through postgres with ruby
+
+== FEATURES/PROBLEMS:
+
+* Access data by row[x].column
+* Access field types
+* Access types which ActiveRecord won't (e.g. _int4)
+* Easy to use on tables, views, and functions
+
+== SYNOPSIS:
+
+  require 'rubygems'
+  require 'labilerecord'
+  
+  LabileRecord::Base.connection = {:dbname => 'postgres', :user => user, 
+    :pass => pass, :host => host, :port => port}
+    
+  q = LabileRecord::Query.new("SELECT * FROM pg_database")
+  # execute the query
+  q.exec
+  # inspect data
+  q.data.inspect
+  #inspect fields (columns)
+  q.fields.inspect
+
+== REQUIREMENTS:
+
+* pg gem (gem install pg)
+
+== INSTALL:
+
+* gem install labilerecord --source git://github.com/adacosta
+
+== LICENSE:
+
+(The MIT License)
+
+Copyright (c) 2009 FIXME full name
+
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+'Software'), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
