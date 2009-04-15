@@ -18,7 +18,6 @@ module LabileRecord
   end
   
   class Query < Array
-    # attr_reader :rows
     attr_reader :result
     attr_reader :fields
     attr_reader :string
@@ -31,23 +30,20 @@ module LabileRecord
       @result = connection.exec(@string)
       parse_fields
       parse_result_data
-      push @rows[0]
     end
     
     def parse_result_data
       columns = @result.fields
       row_count = @result.num_tuples
       field_names = @fields.map {|field| field.name}
-      rows = []
       # iterate rows
       (0..(row_count-1)).each do |row_index|
         row = Row.new(field_names)
         columns.each do |column_name|
           row << @result[row_index][column_name]
         end
-        rows << row
+        push row
       end
-      @rows = rows
     end
     
     def parse_fields
