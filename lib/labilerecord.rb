@@ -2,7 +2,7 @@ $:.unshift(File.dirname(__FILE__)) unless
   $:.include?(File.dirname(__FILE__)) || $:.include?(File.expand_path(File.dirname(__FILE__)))
 
 module LabileRecord
-  VERSION = '0.0.1'
+  VERSION = '0.0.7'
   require 'pg'
   
   class Base
@@ -30,6 +30,7 @@ module LabileRecord
       @result = connection.exec(@string)
       parse_fields
       parse_result_data
+      self
     end
     
     def parse_result_data
@@ -42,7 +43,7 @@ module LabileRecord
         columns.each do |column_name|
           row << @result[row_index][column_name]
         end
-        push row
+        send "<<", row
       end
     end
     
@@ -55,7 +56,6 @@ module LabileRecord
         field_type_name = type[0][type.fields[0]].to_s
         @fields << Field.new( field_name, field_type_name, pg_field_type_id)
       end
-      @fields
     end
     
     def connection
@@ -80,11 +80,11 @@ module LabileRecord
       @fields = fields
     end
 
-    def method_missing(meth,*args)
+    def method_missing(meth, *args)
       if ( field_index = @fields.index(meth.id2name) )
         at field_index
       else
-        super
+        super(meth, *args)
       end
     end
   end
