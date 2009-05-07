@@ -2,11 +2,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{labilerecord}
-  s.version = "0.0.7"
+  s.version = "0.0.8"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Alan Da Costa"]
-  s.date = %q{2009-04-15}
+  s.date = %q{2009-05-07}
   s.description = %q{* Simple data access for dynamic data sets through postgres with ruby}
   s.email = ["alandacosta@gmail.com"]
   s.extra_rdoc_files = ["History.txt", "Manifest.txt", "PostInstall.txt", "README.rdoc"]

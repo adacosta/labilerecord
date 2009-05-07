@@ -12,15 +12,19 @@
 * Access field types
 * Access types which ActiveRecord won't (e.g. _int4)
 * Easy to use on tables, views, and functions
-* Fast - no ruby type conversion on values from connection adapter.
+* Fast - no ruby type conversion on values from connection adapter
+* Simple sql generation for data copy using Query.to_insert_sql
 
 == SYNOPSIS:
 
   require 'rubygems'
   require 'labilerecord'
   
-  LabileRecord::Base.connection = {:dbname => 'postgres', :user => user, 
-    :pass => pass, :host => host, :port => port}
+  LabileRecord::Base.connection = { :dbname => 'postgres', 
+                                    :user => user, 
+                                    :pass => pass, 
+                                    :host => host, 
+                                    :port => port}
     
   databases = LabileRecord::Query.new("SELECT * FROM pg_database")
   # execute the query

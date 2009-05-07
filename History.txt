@@ -1,4 +1,4 @@
-== 0.0.3 2009-04-14
+== 0.0.8 2009-05-07
 
 * 1 major enhancement:
   * Initial release
@@ -12,3 +12,8 @@
   * Fixed bug introduced in 0.0.4 always referencing row[0]
 * 6 :
   * Fix incorrect field.type_id
+* 7 :
+	* Increment revision; minor bug fix
+* 8 :
+	* Added Query.to_insert_sql to transform dataset into
+	an insert statement ... handy for data copies.

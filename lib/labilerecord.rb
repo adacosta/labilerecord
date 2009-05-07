@@ -2,7 +2,7 @@ $:.unshift(File.dirname(__FILE__)) unless
   $:.include?(File.dirname(__FILE__)) || $:.include?(File.expand_path(File.dirname(__FILE__)))
 
 module LabileRecord
-  VERSION = '0.0.7'
+  VERSION = '0.0.8'
   require 'pg'
   
   class Base
@@ -60,6 +60,23 @@ module LabileRecord
     
     def connection
       LabileRecord::Base.connection
+    end
+    
+    def to_insert_sql(table_name=nil)
+      # return: [INSERT INTO table_name] (column_list) gVALUES(value_list);
+      sql = ""
+      each do |row|
+        non_nil_column_names = []
+        non_nil_values = []
+        row.each_with_index do |column, i|
+          non_nil_column_names << fields[i].name if !column.nil?
+          non_nil_values << column if !column.nil?
+        end
+        sql += %Q[
+          #{"INSERT INTO " + table_name.to_s if table_name} (#{ non_nil_column_names.map {|c| '"' + c + '"'} * "," }) VALUES (#{ non_nil_values.map {|c| "'" + c + "'"} * "," });
+        ].strip + "\n"
+      end
+      sql
     end
   end
   
