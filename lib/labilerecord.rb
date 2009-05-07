@@ -63,7 +63,7 @@ module LabileRecord
     end
     
     def to_insert_sql(table_name=nil)
-      # return: [INSERT INTO table_name] (column_list) gVALUES(value_list);
+      # return: [INSERT INTO table_name] (column_list) VALUES(value_list);
       sql = ""
       each do |row|
         non_nil_column_names = []
