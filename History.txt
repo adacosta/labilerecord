@@ -1,4 +1,4 @@
-== 0.0.8 2009-05-07
+== 0.0.9 2009-05-07
 
 * 1 major enhancement:
   * Initial release
@@ -17,3 +17,6 @@
 * 8 :
 	* Added Query.to_insert_sql to transform dataset into
 	an insert statement ... handy for data copies.
+* 9 :
+  * Attempt to load alternate postgresql adapter
+  * Fix readme example typo

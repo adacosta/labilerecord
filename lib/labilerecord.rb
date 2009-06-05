@@ -2,8 +2,18 @@ $:.unshift(File.dirname(__FILE__)) unless
   $:.include?(File.dirname(__FILE__)) || $:.include?(File.expand_path(File.dirname(__FILE__)))
 
 module LabileRecord
-  VERSION = '0.0.8'
-  require 'pg'
+  VERSION = '0.0.9'
+  # TODO: refactor into a clean method
+  # try to load a postgres adapter
+  begin
+    require 'pg'
+  rescue LoadError
+    begin
+      require 'postgres'
+    rescue LoadError
+      raise LoadError, 'no postgres adapters available to load; ensure rubygems or a postgres connection adapter path is required'
+    end
+  end
   
   class Base
     class << self

@@ -35,7 +35,7 @@
   puts databases.fields.inspect
   # inspect specific row and column of data set
   # datname - being a column returned by the query
-  puts datases[0].datname
+  puts databases[0].datname
 
 == REQUIREMENTS:
 
