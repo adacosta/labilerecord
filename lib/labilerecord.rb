@@ -2,7 +2,7 @@ $:.unshift(File.dirname(__FILE__)) unless
   $:.include?(File.dirname(__FILE__)) || $:.include?(File.expand_path(File.dirname(__FILE__)))
 
 module LabileRecord
-  VERSION = '0.0.10'
+  VERSION = '0.0.11'
 
   begin
     require 'pg'
@@ -81,9 +81,13 @@ module LabileRecord
           non_nil_column_names << fields[i].name if !column.nil?
           non_nil_values << column if !column.nil?
         end
-        sql += %Q[
-          #{"INSERT INTO " + table_name.to_s if table_name} (#{ non_nil_column_names.map { |c| quote_object(c) } * "," }) VALUES (#{ non_nil_values.map { |c| quote_value(c, quote) } * "," });
-        ].strip + "\n"
+        sql << %Q[#{"INSERT INTO " + table_name.to_s if table_name} (#{ non_nil_column_names.map { |c| quote_object(c) } * "," })\n]
+        sql << "VALUES ("
+        non_nil_values.each_with_index do |v, i|
+          sql << quote_value(v, quote) + "::" + field_by_name(non_nil_column_names[i]).type
+          sql << ',' if i < non_nil_values.length - 1
+        end
+        sql << ");\n"
       end
       sql
     end
@@ -103,6 +107,12 @@ module LabileRecord
         rows_sql << row_sql
       end
       rows_sql
+    end
+
+    def field_by_name(name)
+      self.fields.each do |field|
+        return field if field.name == name
+      end
     end
 
     private
