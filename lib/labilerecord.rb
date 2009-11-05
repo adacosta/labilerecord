@@ -2,9 +2,8 @@ $:.unshift(File.dirname(__FILE__)) unless
   $:.include?(File.dirname(__FILE__)) || $:.include?(File.expand_path(File.dirname(__FILE__)))
 
 module LabileRecord
-  VERSION = '0.0.9'
-  # TODO: refactor into a clean method
-  # try to load a postgres adapter
+  VERSION = '0.0.10'
+
   begin
     require 'pg'
   rescue LoadError
@@ -14,10 +13,10 @@ module LabileRecord
       raise LoadError, 'no postgres adapters available to load; ensure rubygems or a postgres connection adapter path is required'
     end
   end
-  
+
   class Base
     class << self
-      def connection(*args)
+      def connection
         @connection
       end
 
@@ -26,7 +25,7 @@ module LabileRecord
       end
     end
   end
-  
+
   class Query < Array
     attr_reader :result
     attr_reader :fields
@@ -35,14 +34,14 @@ module LabileRecord
     def initialize(query_string)
       @string = query_string
     end
-    
+
     def exec!
       @result = connection.exec(@string)
       parse_fields
       parse_result_data
       self
     end
-    
+
     def parse_result_data
       columns = @result.fields
       row_count = @result.num_tuples
@@ -56,23 +55,23 @@ module LabileRecord
         send "<<", row
       end
     end
-    
+
     def parse_fields
       @fields = @field_names = []
       @result.fields.each_with_index do |field_name, i|
         pg_field_type_id = @result.ftype(i)
-        type = connection.exec("SELECT typname FROM 
+        type = connection.exec("SELECT typname FROM
                                 pg_type WHERE oid = #{pg_field_type_id}")
         field_type_name = type[0][type.fields[0]].to_s
         @fields << Field.new( field_name, field_type_name, pg_field_type_id)
       end
     end
-    
+
     def connection
       LabileRecord::Base.connection
     end
-    
-    def to_insert_sql(table_name=nil)
+
+    def to_insert_sql(table_name=nil, quote="'")
       # return: [INSERT INTO table_name] (column_list) VALUES(value_list);
       sql = ""
       each do |row|
@@ -83,13 +82,40 @@ module LabileRecord
           non_nil_values << column if !column.nil?
         end
         sql += %Q[
-          #{"INSERT INTO " + table_name.to_s if table_name} (#{ non_nil_column_names.map {|c| '"' + c + '"'} * "," }) VALUES (#{ non_nil_values.map {|c| "'" + c + "'"} * "," });
+          #{"INSERT INTO " + table_name.to_s if table_name} (#{ non_nil_column_names.map { |c| quote_object(c) } * "," }) VALUES (#{ non_nil_values.map { |c| quote_value(c, quote) } * "," });
         ].strip + "\n"
       end
       sql
     end
+
+    def to_static_set_sql(quote="'")
+      rows_sql = ""
+      self.each_with_index do |row, row_index|
+        row_sql = "SELECT "
+        self.fields.each_with_index do |field, field_index|
+          row_field_value = row.send(field.name.to_sym)
+          # builds: value + cast as column + [',' if not last row]
+          row_sql << (row_field_value ? quote_value(row_field_value, quote) : "NULL")
+          row_sql << "::" + field.type + %Q[ AS "#{field.name}"]
+          row_sql << ", " if field_index < self.fields.length - 1
+        end
+        row_sql << " UNION\n" if row_index < self.length - 1
+        rows_sql << row_sql
+      end
+      rows_sql
+    end
+
+    private
+
+    def quote_value(string, quote="'")
+      quote + string.to_s + quote
+    end
+
+    def quote_object(string)
+      '"' + string.to_s + '"'
+    end
   end
-  
+
   class Field
     attr_reader :name
     attr_reader :type
@@ -101,7 +127,7 @@ module LabileRecord
       @type_id = type_id
     end
   end
-  
+
   class Row < Array
     def initialize(fields)
       @fields = fields
